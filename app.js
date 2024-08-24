@@ -1,4 +1,4 @@
-/** @import {State, Todo} from "./todo.ts" */
+/** @import {State} from "./todo.ts" */
 
 import { createStore } from "./not-redux.js";
 import { patch, jsxH } from "./superfine.js";
