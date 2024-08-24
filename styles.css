@@ -1,0 +1,33 @@
+/* Container for the todo list */
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding-top: 2rem;
+}
+
+/* Style for todo items */
+#todoList li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+/* Style for crossed-out todos */
+.todo-completed {
+    text-decoration: line-through;
+    color: gray;
+}
+
+/* Style for remove button */
+.remove-todo {
+    background: none;
+    border: none;
+    color: red;
+    cursor: pointer;
+}
+
+.remove-todo:hover {
+    color: darkred;
+}
