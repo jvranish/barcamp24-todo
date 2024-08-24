@@ -9,10 +9,47 @@ export const html = build.bind(jsxH);
 /** @type {State} */
 const initialState = { todos: [], input: "", id_counter: 0 };
 
-const { dispatch, getState } = createStore(initialState, (state) => {
+const { dispatch } = createStore(initialState, (state) => {
   const root = document.querySelector("#root");
   patch(root, mainView(state));
 });
+
+/** @param {State} state */
+const mainView = (state) => {
+  return html`<main id="root" class="container">
+    <h1>My TODO List</h1>
+    <form id="todoForm" onsubmit=${addTodo}>
+      <input
+        type="text"
+        id="newTodo"
+        placeholder="Enter a new TODO"
+        value=${state.input}
+        required
+        onchange=${updateInput}
+      />
+      <button type="submit">Add TODO</button>
+    </form>
+    <ul class="todo-list">
+      ${state.todos.map(
+        (todo) => html`
+          <li class="${todo.completed ? 'todo-completed' : ''}">
+            <input
+              type="checkbox"
+              id=${"todo-" + todo.id}
+              checked=${todo.completed}
+              onchange=${toggleTodo(todo.id)}
+            />
+            <label class="todo-label" for=${"todo-" + todo.id}>
+              ${todo.text}
+            </label>
+            <button class="remove-todo" onclick=${removeTodo(todo.id)}>🗑️</button>
+          </li>
+        `
+      )}
+    </ul>
+  </main>`;
+};
+
 
 /** @param {Event} event */
 const addTodo = (event) => {
@@ -52,41 +89,4 @@ const updateInput = (event) => {
       state.input = event.target.value;
     }
   });
-};
-
-/** @param {State} state */
-const mainView = (state) => {
-
-  return html`<main id="root" class="container">
-    <h1>My TODO List</h1>
-    <form id="todoForm" onsubmit=${addTodo}>
-      <input
-        type="text"
-        id="newTodo"
-        placeholder="Enter a new TODO"
-        value=${state.input}
-        required
-        onchange=${updateInput}
-      />
-      <button type="submit">Add TODO</button>
-    </form>
-    <ul class="todo-list">
-      ${state.todos.map(
-        (todo) => html`
-          <li>
-            <input
-              type="checkbox"
-              id=${"todo-" + todo.id}
-              checked=${todo.completed}
-              onchange=${toggleTodo(todo.id)}
-            />
-            <label for=${"todo-" + todo.id}
-              >${todo.text}
-              <button onclick=${removeTodo(todo.id)}>🗑️</button>
-            </label>
-          </li>
-        `
-      )}
-    </ul>
-  </main>`;
 };
